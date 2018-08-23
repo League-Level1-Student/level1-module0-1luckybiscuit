@@ -1,33 +1,49 @@
-import java.applet.AudioClip;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
+import java.net.URI;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class sfxMachine implements ActionListener {
+public class cutv implements ActionListener {
+	void showDucks() {
+	     playVideo("https://www.youtube.com/watch?v=MtN1YnoL46Q");
+	}
+
+	void showFrog() {
+	     playVideo("https://www.youtube.com/watch?v=cBkWhkAZ9ds");
+	}
+
+	void showFluffyUnicorns() {
+	     playVideo("https://www.youtube.com/watch?v=a-xWhG4UU_Y");
+	}
+
+	void playVideo(String videoID) {
+	     try {
+	          URI uri = new URI(videoID);
+	          java.awt.Desktop.getDesktop().browse(uri);
+	     } catch (Exception e) {
+	          e.printStackTrace();
+	     }
+	}
 	JButton butt = new JButton();
 	JButton but = new JButton();
 	JButton boot = new JButton();
 	JButton boott = new JButton();
+	JButton bott = new JButton();
 		public static void main(String[] args) {
-			sfxMachine oof = new sfxMachine();
+			cutv oof = new cutv();
 			oof.showButton();
 		}
 		public void showButton() {
 			JFrame frame = new JFrame();
 			frame.setVisible(true);
-			butt.setText("flush");
-			but.setText("noice");
-			boot.setText("bwaaaah");
-			boott.setText("bad joke");
+			butt.setText("Ducks");
+			but.setText("Unicorns");
+			boot.setText("Frogs");
+			boott.setText("Chickens");
+			bott.setText("Carl");
 			JPanel panel = new JPanel();
 			panel.setVisible(true);
 			frame.add(panel);
@@ -35,31 +51,26 @@ public class sfxMachine implements ActionListener {
 			panel.add(but);
 			panel.add(boot);
 			panel.add(boott);
+			panel.add(bott);
 			butt.addActionListener(this);
 			but.addActionListener(this);
 			boot.addActionListener(this);
 			boott.addActionListener(this);
+			bott.addActionListener(this);
+			frame.pack();
 		}
 		public void actionPerformed(ActionEvent e) {
 			JButton buttonPressed = (JButton) e.getSource();
 			if(buttonPressed == butt) {
-				playSound("flush.wav");
+				showDucks();
 			}else if(buttonPressed == but) {
-				playSound("neece.wav");
+				showFluffyUnicorns();
 			}else if(buttonPressed == boot) {
-				playSound("airhorn.wav");
+				showFrog();
 			}else if(buttonPressed == boott) {
-				playSound("baDumTss.wav");
+				playVideo("https://www.youtube.com/watch?v=08wUT1ruaYU");
 			}else {
-				
+				playVideo("https://www.youtube.com/watch?v=gNJ-3blp56w");
 			}
-		}
-		private void playSound(String soundFile) { 
-		     try {
-		          AudioClip sound = JApplet.newAudioClip(getClass().getResource(soundFile));
-		          sound.play();
-		     } catch (Exception e) {
-		          e.printStackTrace();
-		     }
 		}
 }
