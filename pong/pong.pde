@@ -3,17 +3,21 @@ Minim minim;
 AudioSample sound;
 PImage backgroundImage;
 
+
 void setup() {
-  backgroundImage = loadImage("yeet.jpg");
+  backgroundImage = loadImage("yeetus.jpg");
   minim = new Minim (this);
-  sound = minim.loadSample("wilhelm.wav", 128);
-  size(300, 300);
+  sound = minim.loadSample("mineDiamonds.wav", 128);
+  size(400, 400);
 }
+float mult = 1.05;
 int x = -1;
-int veloX = 3;
-int y = 150;
-int veloY = 3;
+float veloX = 3;
+int y = 100;
+float veloY = 3;
+float rand = 3;
 int score = 0;
+
 Boolean intersects(int ballX, int ballY, int paddleX, int paddleY, int paddleLength) {
   if (ballY > paddleY && ballX > paddleX && ballX < paddleX + paddleLength)
     return true;
@@ -21,29 +25,43 @@ Boolean intersects(int ballX, int ballY, int paddleX, int paddleY, int paddleLen
   return false;
 }
 void draw() {
+  score++;
   image(backgroundImage, 0, 0);
   image(backgroundImage, 0, 0, width, height);
-  background(0, 0, 0);
-  fill(255, 0, 0);
-  stroke(255, 255, 255);
+  fill(#D10F12);
+  textSize(30);
+  stroke(255,255,255);
+  text("Don't mess up or you'll be\nput on the naughty list.\nHow long can you survive?", 10, 40);
+  textSize(100);
+  text(score,110,350);
+  fill(#D10F12);
   ellipse(x, y, 25, 25);
+  strokeWeight(3);
   //vertical walls
   if (y<0) {
-      veloY = 3;
-    } else if (y>height) {
-      veloY = -3;
-    }
-    y += veloY;
+    veloY = rand;
+    rand *= mult;
+  } else if (y>height) {
+    sound.trigger();
+    println("You messed up! You're score was " + score);
+    rand = 3;
+    score = 0;
+    veloY = -rand;
+  }
+  y += veloY;
   //side walls
-    if (x<0) {
-      veloX = 3;
-    } else if (x>width) {
-      veloX = -3;
-    }
-    x += veloX;
-    if(intersects(x,y,mouseX,290,50) == true) {
-      score++;
-      veloY = -3;
-    }
-  rect(mouseX, 290, 50, 10);
+  if (x<0) {
+    veloX = rand;
+    rand *= mult;
+  } else if (x>width) {
+    veloX = -rand;
+    rand *= mult;
+  }
+  x += veloX;
+  //scream
+  if(intersects(x,y,mouseX,380,70).equals(true)) {
+    veloY = random(-2, -5);
+    rand *= mult;
+  }
+  rect(mouseX, 380, 70, 20);
 }
